@@ -4,8 +4,38 @@ const c = canvas.getContext('2d')
 canvas.width = 1024
 canvas.height = 576
 
-c.fillStyle = 'white'
-c.fillRect(0, 0, canvas.width, canvas.height)
+const collisionsMap = []
+for (let i = 0; i < collisions.length; i+= 70) {
+  collisionsMap.push(collisions.slice(i, 70, i))
+}
+
+class Boundary {
+  static width = 32
+  constructor({position}) {
+  this.position = position
+  this.width = 32
+  this.height = 32
+  }
+  draw() {  c.fillStyle = 'red'
+  c.fillRect(this.position.x, this.position.y, this.width, this.height)
+  }
+}
+
+const boundaries = []
+
+collisionsMap.forEach((row) => {
+  row.forEach((symbol, j) => {
+    boundaries.push(
+      new Boundary({
+        position: {
+          x: j * 32,
+          y: j * 32
+        }
+      })
+    )
+  })
+})
+
 
 const image = new Image()
 image.src = 'img/PokedGame.png';
@@ -108,3 +138,5 @@ window.addEventListener('keyup', (e) => {
       break;
   }
 });
+
+// collisions
